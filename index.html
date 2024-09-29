@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Document</title>
+  </head>
+  <body class="bg-gray-100">
+    <div class="flex min-h-screen">
+      <!-- sider -->
+      <aside class="w-64 bg-indigo-900 text-white">
+        <div class="p-4">
+          <h1 class="text-2xl text=bold">Admin Panel</h1>
+          <nav class="py-2 px-4 mt-4">
+            <ul>
+              <li class="hover:bg-indigo-700">
+                <a href="#">Dashboard</a>
+              </li>
+              <li class="hover:bg-indigo-700">
+                <a href="#">Mahasiswa</a>
+              </li>
+              <li class="hover:bg-indigo-700">
+                <a href="#">Setting</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </aside>
+
+      <!-- konten -->
+      <div class="flex-1 flex flex-col">
+        <!-- header -->
+        <header class="bg-white p-4">
+          <div class="flex justify-end">
+            <button class="bg-blue-500 text-white px-4 py-2 rounded">
+              Logout
+            </button>
+          </div>
+        </header>
+
+        <div class="flex justify-between mb-1 p-4">
+          <h2 class="text-xl font-semibold">List Mahasiswa</h2>
+          <button
+            id="addDataBtn"
+            class="bg-pink-500 text-white px-4 py-2 rounded"
+          >
+            Tambah
+          </button>
+        </div>
+        <main class="flex-grow bg-blue-50">
+          <div class="bg-white p-6 rounded-lg shadow">
+            <table class="min-w-full table-auto">
+              <thead>
+                <tr class="bg-gray-200">
+                  <th class="px-2 py-4">No</th>
+                  <th class="px-2 py-4">NIM</th>
+                  <th class="px-2 py-4">Nama</th>
+                  <th class="px-2 py-4">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="border px-2 py-4">1</td>
+                  <td class="border px-2 py-4">A11.2022.12345</td>
+                  <td class="border px-2 py-4">Ali</td>
+                  <td class="border px-2 py-4">
+                    <div class="action-buttons">
+                      <button
+                        class="edit-btn bg-yellow-500 text-white px-4 py-2 rounded"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        class="delete-btn bg-red-500 text-white px-4 py-2 rounded"
+                      >
+                        Hapus
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="border px-2 py-4">2</td>
+                  <td class="border px-2 py-4">A11.2022.23456</td>
+                  <td class="border px-2 py-4">Bagas</td>
+                  <td class="border px-2 py-4">
+                    <div class="action-buttons">
+                      <button
+                        class="edit-btn bg-yellow-500 text-white px-4 py-2 rounded"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        class="delete-btn bg-red-500 text-white px-4 py-2 rounded"
+                      >
+                        Hapus
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="border px-2 py-4">3</td>
+                  <td class="border px-2 py-4">A11.2022.34567</td>
+                  <td class="border px-2 py-4">Rije</td>
+                  <td class="border px-2 py-4">
+                    <div class="action-buttons">
+                      <button
+                        class="edit-btn bg-yellow-500 text-white px-4 py-2 rounded"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        class="delete-btn bg-red-500 text-white px-4 py-2 rounded"
+                      >
+                        Hapus
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </main>
+        <!-- Modal Tailwind -->
+        <div
+          id="editModal"
+          class="hidden fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center"
+        >
+          <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+            <h3 class="text-xl font-semibold mb-4">Edit Data</h3>
+            <form id="editForm">
+              <div class="mb-4">
+                <label for="editNIM" class="block text-gray-700">NIM</label>
+                <input
+                  type="text"
+                  id="editNIM"
+                  class="border w-full px-4 py-2 rounded-lg"
+                />
+              </div>
+              <div class="mb-4">
+                <label for="editNama" class="block text-gray-700">Nama</label>
+                <input
+                  type="text"
+                  id="editNama"
+                  class="border w-full px-4 py-2 rounded-lg"
+                />
+              </div>
+              <input type="hidden" id="rowIndex" />
+              <div class="flex justify-end">
+                <button
+                  type="button"
+                  id="cancelEdit"
+                  class="mr-2 bg-gray-400 text-white px-4 py-2 rounded-lg"
+                >
+                  Batal
+                </button>
+                <button
+                  type="button"
+                  id="saveChanges"
+                  class="bg-blue-500 text-white px-4 py-2 rounded-lg"
+                >
+                  Simpan
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <!-- Modal Tambah Data -->
+        <div
+          id="addModal"
+          class="hidden fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center"
+        >
+          <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+            <h3 class="text-xl font-semibold mb-4">Tambah Data</h3>
+            <form id="addForm">
+              <div class="mb-4">
+                <label for="addNIM" class="block text-gray-700">NIM</label>
+                <input
+                  type="text"
+                  id="addNIM"
+                  class="border w-full px-4 py-2 rounded-lg"
+                />
+              </div>
+              <div class="mb-4">
+                <label for="addNama" class="block text-gray-700">Nama</label>
+                <input
+                  type="text"
+                  id="addNama"
+                  class="border w-full px-4 py-2 rounded-lg"
+                />
+              </div>
+              <div class="flex justify-end">
+                <button
+                  type="button"
+                  id="cancelAdd"
+                  class="mr-2 bg-gray-400 text-white px-4 py-2 rounded-lg"
+                >
+                  Batal
+                </button>
+                <button
+                  type="button"
+                  id="saveAdd"
+                  class="bg-blue-500 text-white px-4 py-2 rounded-lg"
+                >
+                  Simpan
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <footer class="bg-indigo-900 text-white p-4 text-center">
+          &copy; Admin WDP
+        </footer>
+      </div>
+    </div>
+    <!-- JQuery CDN -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- SweetAlert2 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="script.js"></script>
+  </body>
+</html>
